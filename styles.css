@@ -7,6 +7,7 @@
     --background-color1:rgb(199, 115, 115);
     --background-color2:rgb(115, 115, 199);
     --background-color3:rgb(199, 199, 115);
+    --background-color4:rgb(115, 199, 115);
     --font-color1:rgb(207, 207, 207);
     --font-color2:rgb(15, 15, 15);
 }
@@ -19,7 +20,7 @@ header{
     align-items: center;
 }
 
-header button{
+.add-book-btn{
     border: 0;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
@@ -27,18 +28,26 @@ header button{
     color: var(--font-color1);
 }
 
-header button:hover{
+.add-book-btn:hover{
     opacity: 80%;
+}
+
+.add-book-btn:disabled{
+    opacity: 25%;
+}
+
+.add-book-btn:disabled:hover{
+    opacity: 25%;
 }
 
 .bookcard-container{
     display: grid;
     gap:1rem;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
     padding:2rem;
 }
 
-.bookcard{
+.bookcard, .new-bookcard{
     position: relative;
     padding: 1rem;
     border: 1px solid var(--font-color2);
@@ -46,20 +55,37 @@ header button:hover{
     background-color: var(--background-color3);
 }
 
-.bookcard button{
-    background-color: var(--background-color1);
-    color: var(--font-color1);
+.delete-book-btn, .accept-new-book-btn{
     border: 0;
     height: 20px;
     width: 20px;
     border-radius: 50%;
     padding-bottom: 2px;
     position: absolute;
-    right: 1rem;
     transition: all 0.3s ease;
+}
+
+.delete-book-btn{
+    background-color: var(--background-color1);
+    color: var(--font-color1);
+    right: 1rem;
+}
+
+.accept-new-book-btn{
+    background-color: var(--background-color4);
+    color: var(--font-color2);
+    right: 3rem;
 }
 
 .bookcard button:hover{
     background-color: var(--background-color2);
     color: var(--font-color2);
+}
+
+.new-bookcard div{
+    margin: 0.2rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 8rem 1fr 5rem;
+    row-gap: 1rem;
 }
