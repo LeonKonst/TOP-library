@@ -1,0 +1,65 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+:root{
+    --background-color1:rgb(199, 115, 115);
+    --background-color2:rgb(115, 115, 199);
+    --background-color3:rgb(199, 199, 115);
+    --font-color1:rgb(207, 207, 207);
+    --font-color2:rgb(15, 15, 15);
+}
+
+header{
+    background-color: var(--background-color1);
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header button{
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    background-color: var(--background-color2);
+    color: var(--font-color1);
+}
+
+header button:hover{
+    opacity: 80%;
+}
+
+.bookcard-container{
+    display: grid;
+    gap:1rem;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    padding:2rem;
+}
+
+.bookcard{
+    position: relative;
+    padding: 1rem;
+    border: 1px solid var(--font-color2);
+    border-radius: 1rem;
+    background-color: var(--background-color3);
+}
+
+.bookcard button{
+    background-color: var(--background-color1);
+    color: var(--font-color1);
+    border: 0;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    padding-bottom: 2px;
+    position: absolute;
+    right: 1rem;
+    transition: all 0.3s ease;
+}
+
+.bookcard button:hover{
+    background-color: var(--background-color2);
+    color: var(--font-color2);
+}
