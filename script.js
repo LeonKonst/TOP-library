@@ -3,18 +3,23 @@ const addBookBtn = document.querySelector(".add-book-btn");
 
 let myLibrary = [];
 
-function Book(bookTitle, authorName, releaseYear, pages, genre, id) {
+function Book(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead, id) {
     this.bookTitle = bookTitle;
     this.authorName = authorName;
     this.releaseYear = releaseYear;
     this.pages = pages;
     this.genre = genre;
+    this.hasBeenRead = hasBeenRead;
     this.id = id;
 }
 
-function addBookToLibrary(bookTitle, authorName, releaseYear, pages, genre) {
+Book.prototype.hasRead = function() {
+    this.hasBeenRead = !this.hasBeenRead;
+}
+
+function addBookToLibrary(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead) {
     const id = crypto.randomUUID();
-    const book = new Book (bookTitle, authorName, releaseYear, pages, genre, id);
+    const book = new Book (bookTitle, authorName, releaseYear, pages, genre, hasBeenRead, id);
     myLibrary.push(book)
     refreshBookshelf();
 }
@@ -30,6 +35,7 @@ function refreshBookshelf(){
             <h3>Year: ${element.releaseYear}</h3>
             <p>Pages: ${element.pages}</p>
             <p>${element.genre}</p>
+            <button class="${element.hasBeenRead} has-been-read"></button>
         </div>
     `
     })
@@ -39,13 +45,21 @@ function refreshBookshelf(){
             removeBook(el);
         })
     })
+    const hasBeenReadBtns = document.querySelectorAll(".has-been-read");
+        hasBeenReadBtns.forEach(el => {
+        el.addEventListener("click", () => {
+            el.classList.toggle("true");
+            const idToToggle = el.parentElement.dataset.attribute;
+            myLibrary.find((el) => el.id !== idToToggle).hasRead();
+        })
+    })
 }
 
-addBookToLibrary("The Great Gatsby","F. Scott Fitzgerald",1925,218,"Fiction");
-addBookToLibrary("1984","George Orwell",1949,328,"Fiction");
-addBookToLibrary("To Kill a Mockingbird","Harper Lee",1960,281,"Fiction");
-addBookToLibrary("The Diary of a Young Girl","Anne Frank",1947,283,"Nonfiction");
-addBookToLibrary("Hamlet","William Shakespeare",1603,342,"Drama");
+addBookToLibrary("The Great Gatsby","F. Scott Fitzgerald",1925,218,"Fiction", true);
+addBookToLibrary("1984","George Orwell",1949,328, "Fiction", false);
+addBookToLibrary("To Kill a Mockingbird","Harper Lee",1960,281, "Fiction", true);
+addBookToLibrary("The Diary of a Young Girl","Anne Frank",1947,283, "Nonfiction", false);
+addBookToLibrary("Hamlet","William Shakespeare",1603,342, "Drama", true);
 
 function addNewBookcard(){
     bookcardContainer.innerHTML += `
@@ -81,6 +95,13 @@ function addNewBookcard(){
                     <option value="drama">Drama</option>
                 </select>
             </div>
+            <div>
+                <label for="new-has-been-read">Have you read it?</label>
+                <select class="new-has-been-read" name="new-has-been-read" id="new-has-been-read">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
             
         </div>
     `;
@@ -92,7 +113,8 @@ function acceptNewbookData(){
     const releaseYearInput = document.querySelector(".new-book-year").value;
     const pagesInput = document.querySelector(".new-book-pages").value;
     const genreInput = document.querySelector(".new-book-genre").value;
-    addBookToLibrary(bookTitleInput, authorNameInput, releaseYearInput, pagesInput, genreInput);
+    const hasBeenReadInput = document.querySelector(".new-has-been-read").value==="true";
+    addBookToLibrary(bookTitleInput, authorNameInput, releaseYearInput, pagesInput, genreInput, hasBeenReadInput);
     addBookBtn.disabled = false;
 }
 
@@ -106,7 +128,6 @@ addBookBtn.addEventListener("click", ()  =>
         })
     }
 )
-
 
 function removeBook(element){
     const idToRemove = element.parentElement.dataset.attribute;

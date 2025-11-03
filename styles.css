@@ -89,3 +89,25 @@ header{
     grid-template-columns: 8rem 1fr 5rem;
     row-gap: 1rem;
 }
+
+.true::after{
+    content: "Read";
+}
+
+.has-been-read{
+    border: 0px;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.has-been-read:not(.true)::after{
+    content: "Not read";
+}
+
+.has-been-read:not(.true){
+    background-color: var(--background-color1);
+}
+
+.true{
+    background-color: var(--background-color4);
+}
