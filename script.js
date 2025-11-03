@@ -1,9 +1,7 @@
 const bookcardContainer = document.querySelector(".bookcard-container");
 const addBookBtn = document.querySelector(".add-book-btn");
 
-
-
-const myLibrary = [];
+let myLibrary = [];
 
 function Book(bookTitle, authorName, releaseYear, pages, genre, id) {
     this.bookTitle = bookTitle;
@@ -21,11 +19,11 @@ function addBookToLibrary(bookTitle, authorName, releaseYear, pages, genre) {
     refreshBookshelf();
 }
 
-function refreshBookshelf (){
+function refreshBookshelf(){
     bookcardContainer.innerHTML="";
     myLibrary.map((element)=>{
     bookcardContainer.innerHTML += `
-        <div class="bookcard">
+        <div class="bookcard" data-attribute="${element.id}">
             <button class="delete-book-btn">x</button>
             <h1>${element.bookTitle}</h1>
             <h2>by ${element.authorName}</h2>
@@ -35,6 +33,12 @@ function refreshBookshelf (){
         </div>
     `
     })
+    const deleteBtns = document.querySelectorAll(".delete-book-btn");
+    deleteBtns.forEach(el => {
+        el.addEventListener("click", () => {
+            removeBook(el);
+        })
+    })
 }
 
 addBookToLibrary("The Great Gatsby","F. Scott Fitzgerald",1925,218,"Fiction");
@@ -42,8 +46,6 @@ addBookToLibrary("1984","George Orwell",1949,328,"Fiction");
 addBookToLibrary("To Kill a Mockingbird","Harper Lee",1960,281,"Fiction");
 addBookToLibrary("The Diary of a Young Girl","Anne Frank",1947,283,"Nonfiction");
 addBookToLibrary("Hamlet","William Shakespeare",1603,342,"Drama");
-
-
 
 function addNewBookcard(){
     bookcardContainer.innerHTML += `
@@ -103,5 +105,11 @@ addBookBtn.addEventListener("click", ()  =>
             acceptNewbookData();
         })
     }
-
 )
+
+
+function removeBook(element){
+    const idToRemove = element.parentElement.dataset.attribute;
+    myLibrary = myLibrary.filter((el) => el.id !== idToRemove);
+    refreshBookshelf ()
+}
