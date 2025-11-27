@@ -1,8 +1,6 @@
 const bookcardContainer = document.querySelector(".bookcard-container");
 const addBookBtn = document.querySelector(".add-book-btn");
 
-// let myLibrary = [];
-
 class Library {
 
     constructor(){
@@ -77,16 +75,6 @@ class UIhandler {
         })
     }
 
-    static acceptNewbookData(){
-        const bookTitleInput = document.querySelector(".new-book-title").value;
-        const authorNameInput = document.querySelector(".new-book-author").value;
-        const releaseYearInput = document.querySelector(".new-book-year").value;
-        const pagesInput = document.querySelector(".new-book-pages").value;
-        const genreInput = document.querySelector(".new-book-genre").value;
-        const hasBeenReadInput = document.querySelector(".new-has-been-read").value==="true";
-        library.addBookToLibrary(bookTitleInput, authorNameInput, releaseYearInput, pagesInput, genreInput, hasBeenReadInput);
-        addBookBtn.disabled = false;
-    }
 }
 
 class UIBookCards{
@@ -135,6 +123,18 @@ class UIBookCards{
             </div>
         `;
     }    
+
+
+    static acceptNewbookData(){
+        const bookTitleInput = document.querySelector(".new-book-title").value;
+        const authorNameInput = document.querySelector(".new-book-author").value;
+        const releaseYearInput = document.querySelector(".new-book-year").value;
+        const pagesInput = document.querySelector(".new-book-pages").value;
+        const genreInput = document.querySelector(".new-book-genre").value;
+        const hasBeenReadInput = document.querySelector(".new-has-been-read").value==="true";
+        library.addBookToLibrary(bookTitleInput, authorNameInput, releaseYearInput, pagesInput, genreInput, hasBeenReadInput);
+        addBookBtn.disabled = false;
+    }
 }
 
 
@@ -151,7 +151,7 @@ addBookBtn.addEventListener("click", ()  =>
         addBookBtn.disabled = true;
         const acceptNewBookBtn = document.querySelector(".accept-new-book-btn");
         acceptNewBookBtn.addEventListener("click", () => {
-            UIhandler.acceptNewbookData();
+            UIBookCards.acceptNewbookData();
         })
     }
 )

@@ -6,9 +6,9 @@
 :root{
     --background-color1:rgb(199, 115, 115);
     --background-color2:rgb(115, 115, 199);
-    --background-color3:rgb(199, 199, 115);
+    --background-color3:rgb(192, 192, 192);
     --background-color4:rgb(115, 199, 115);
-    --font-color1:rgb(207, 207, 207);
+    --font-color1:rgb(255, 255, 255);
     --font-color2:rgb(15, 15, 15);
 }
 
