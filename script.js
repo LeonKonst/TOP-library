@@ -16,7 +16,7 @@ class Book {
         this.id = id;
     }
 
-    hasBeenRead() {
+    toggleRead() {
         this.hasBeenRead = !this.hasBeenRead;
     }
 
@@ -57,7 +57,7 @@ function refreshBookshelf(){
         el.addEventListener("click", () => {
             el.classList.toggle("true");
             const idToToggle = el.parentElement.dataset.attribute;
-            myLibrary.find((el) => el.id !== idToToggle).hasRead();
+            myLibrary.find((el) => el.id !== idToToggle).toggleRead();
         })
     })
 }
