@@ -3,19 +3,26 @@ const addBookBtn = document.querySelector(".add-book-btn");
 
 let myLibrary = [];
 
-function Book(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead, id) {
-    this.bookTitle = bookTitle;
-    this.authorName = authorName;
-    this.releaseYear = releaseYear;
-    this.pages = pages;
-    this.genre = genre;
-    this.hasBeenRead = hasBeenRead;
-    this.id = id;
+
+class Book {
+
+    constructor(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead, id){
+        this.bookTitle = bookTitle;
+        this.authorName = authorName;
+        this.releaseYear = releaseYear;
+        this.pages = pages;
+        this.genre = genre;
+        this.hasBeenRead = hasBeenRead;
+        this.id = id;
+    }
+
+    hasBeenRead() {
+        this.hasBeenRead = !this.hasBeenRead;
+    }
+
 }
 
-Book.prototype.hasRead = function() {
-    this.hasBeenRead = !this.hasBeenRead;
-}
+
 
 function addBookToLibrary(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead) {
     const id = crypto.randomUUID();
