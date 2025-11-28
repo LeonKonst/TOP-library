@@ -7,14 +7,14 @@ class Library {
     addBookToLibrary(bookTitle, authorName, releaseYear, pages, genre, hasBeenRead) {
         const id = crypto.randomUUID();
         const book = new Book (bookTitle, authorName, releaseYear, pages, genre, hasBeenRead, id);
-        this.myLibrary.push(book)
-        UIhandler.refreshBookshelf();
+        this.myLibrary.push(book);
+        UIhandler.refreshBookshelf ()
     }
 
-    removeBook(element){
-        const idToRemove = element.parentElement.dataset.attribute;
+    removeBook(card){
+        const idToRemove = card.dataset.attribute;
         this.myLibrary = this.myLibrary.filter((el) => el.id !== idToRemove);
-        UIhandler.refreshBookshelf ()
+        UIhandler.refreshBookshelf();
     }
 }
 
@@ -53,12 +53,14 @@ class UIhandler {
             </div>
         `
         })
+
         const deleteBtns = document.querySelectorAll(".delete-book-btn");
         deleteBtns.forEach(el => {
             el.addEventListener("click", () => {
-                library.removeBook(el);
+                library.removeBook(el.closest(".bookcard"));
             })
         })
+
         const hasBeenReadBtns = document.querySelectorAll(".has-been-read");
             hasBeenReadBtns.forEach(el => {
             el.addEventListener("click", () => {
@@ -72,11 +74,10 @@ class UIhandler {
 }
 
 class UIBookCards{
-        static addNewBookcard(){
+    static addNewBookcard(){
 
         const cardContainer = document.createElement("div");
-        cardContainer.classList = "new-bookcard";
-        bookcardContainer.appendChild(cardContainer);
+        cardContainer.classList.add("new-bookcard");
         cardContainer.innerHTML += `
             <button class="delete-book-btn">x</button>
             <button class="accept-new-book-btn">✓</button>
@@ -117,19 +118,37 @@ class UIBookCards{
                 </select>
             </div>
         `;
+
+        bookcardContainer.appendChild(cardContainer);
+        
+        addBookBtn.disabled = true;
+        
+        const acceptNewBookBtn = cardContainer.querySelector(".accept-new-book-btn");
+        
+        acceptNewBookBtn.addEventListener("click", () => {
+            UIBookCards.acceptNewbookData(cardContainer);
+
+        })
+
+        const deleteBtn = cardContainer.querySelector(".delete-book-btn");
+        deleteBtn.addEventListener("click", () => {
+            cardContainer.remove();
+            addBookBtn.disabled = false;
+        })
     }    
 
     static capitalizeFirstLetter(val) {
         return String(val).charAt(0).toUpperCase() + String(val).slice(1);
     }
 
-    static acceptNewbookData(){
-        const bookTitleInput = document.querySelector(".new-book-title").value;
-        const authorNameInput = document.querySelector(".new-book-author").value;
-        const releaseYearInput = document.querySelector(".new-book-year").value;
-        const pagesInput = document.querySelector(".new-book-pages").value;
-        const genreInput = UIBookCards.capitalizeFirstLetter(document.querySelector(".new-book-genre").value);
-        const hasBeenReadInput = document.querySelector(".new-has-been-read").value==="true";
+    static acceptNewbookData(cardContainer){
+        const bookTitleInput = cardContainer.querySelector(".new-book-title").value;
+        const authorNameInput = cardContainer.querySelector(".new-book-author").value;
+        const releaseYearInput = cardContainer.querySelector(".new-book-year").value;
+        const pagesInput = cardContainer.querySelector(".new-book-pages").value;
+        const genreInput = UIBookCards.capitalizeFirstLetter(cardContainer.querySelector(".new-book-genre").value);
+        const hasBeenReadInput = cardContainer.querySelector(".new-has-been-read").value==="true";
+        cardContainer.remove();
         library.addBookToLibrary(bookTitleInput, authorNameInput, releaseYearInput, pagesInput, genreInput, hasBeenReadInput);
         addBookBtn.disabled = false;
     }
@@ -147,14 +166,6 @@ library.addBookToLibrary("The Diary of a Young Girl","Anne Frank",1947,283, "Non
 library.addBookToLibrary("Hamlet","William Shakespeare",1603,342, "Drama", true);
 
 
-addBookBtn.addEventListener("click", ()  =>
-    {
-        UIBookCards.addNewBookcard();
-        addBookBtn.disabled = true;
-        const acceptNewBookBtn = document.querySelector(".accept-new-book-btn");
-        acceptNewBookBtn.addEventListener("click", () => {
-            UIBookCards.acceptNewbookData();
-        })
-    }
+addBookBtn.addEventListener("click", () =>
+    UIBookCards.addNewBookcard()
 )
-
